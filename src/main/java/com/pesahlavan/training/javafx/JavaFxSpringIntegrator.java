@@ -15,13 +15,13 @@
  */
 package com.pesahlavan.training.javafx;
 
-import com.pesahlavan.training.javafx.preloader.TestPreloader;
 import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import com.pesahlavan.training.javafx.preloader.TestPreloader;
 
 import java.util.Arrays;
 
@@ -42,7 +42,7 @@ public abstract class JavaFxSpringIntegrator extends Application {
 		// главный момент - "присоединяем" экземпляр Application (который стартует javafx приложение) к контексту Spring
 		applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
-//		printBeans();
+		printBeans();
 
 		// уведомить прелоадер, что загрузка прошла полностью (чтобы скрыть окно инициализации)
 		LauncherImpl.notifyPreloader(this,  new Preloader.ProgressNotification(100));

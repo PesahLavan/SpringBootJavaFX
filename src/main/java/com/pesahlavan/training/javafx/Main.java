@@ -16,11 +16,11 @@
 package com.pesahlavan.training.javafx;
 
 import com.pesahlavan.training.javafx.fxml.MainView;
-import com.pesahlavan.training.javafx.utils.LocaleManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.pesahlavan.training.javafx.utils.LocaleManager;
 
 import java.util.Locale;
 

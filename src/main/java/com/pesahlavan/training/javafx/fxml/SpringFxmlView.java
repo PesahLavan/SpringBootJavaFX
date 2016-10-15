@@ -15,6 +15,7 @@
  */
 package com.pesahlavan.training.javafx.fxml;
 
+import com.pesahlavan.training.javafx.objects.Lang;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -28,7 +29,6 @@ import javafx.scene.layout.Pane;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import com.pesahlavan.training.javafx.objects.Lang;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +41,7 @@ import static java.util.ResourceBundle.getBundle;
 // класс для "соединения" FXML контроллеров с контекстом Spring
 public abstract class SpringFxmlView implements ApplicationContextAware, Observer {
 
-	private static final String BUNDLES_FOLDER = "ru.javabegin.training.javafx.bundles.Locale";
+	private static final String BUNDLES_FOLDER = "com.pesahlavan.training.javafx.bundles.Locale";
 
 
 	protected ObjectProperty<Object> presenterProperty;
