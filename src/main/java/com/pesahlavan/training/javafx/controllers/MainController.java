@@ -5,16 +5,23 @@ import com.pesahlavan.training.javafx.fxml.EditView;
 import com.pesahlavan.training.javafx.fxml.MainView;
 import com.pesahlavan.training.javafx.objects.Lang;
 import com.pesahlavan.training.javafx.service.AddressBook;
+import com.pesahlavan.training.javafx.utils.DialogManager;
 import com.pesahlavan.training.javafx.utils.LocaleManager;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
@@ -28,8 +35,10 @@ import java.util.ResourceBundle;
 @Component
 public class MainController extends Observable{
 
+
     @Autowired
     private AddressBook addressBook;
+
 
     @Autowired
     private MainView mainView;
@@ -159,6 +168,36 @@ public class MainController extends Observable{
         });
 
 
+        // слушает двойное нажатие для редактирования записи
+        tableAddressBook.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() == 2) {
+//                    editDialogController.setPerson((Person) tableAddressBook.getSelectionModel().getSelectedItem());
+//                    showDialog();
+                    btnEdit.fire();
+                }
+            }
+        });
+
+
+        // слушает переключение языка
+        comboLocales.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object t, Object t1) {
+
+                Lang selectedLang = (Lang)ov.getValue();
+
+                LocaleManager.setCurrentLang(selectedLang);
+
+                // уведомить всех слушателей, что произошла смена языка
+                setChanged();
+                notifyObservers(selectedLang);
+
+            }
+        });
+
+
     }
 
 
@@ -170,13 +209,117 @@ public class MainController extends Observable{
 
     public void actionButtonPressed(ActionEvent actionEvent) {
 
+        Object source = actionEvent.getSource();
+
+        // если нажата не кнопка - выходим из метода
+        if (!(source instanceof Button)) {
+            return;
+        }
+
+        Person selectedPerson = (Person) tableAddressBook.getSelectionModel().getSelectedItem();
+
+
+
+        Button clickedButton = (Button) source;
+
+        boolean research = false;
+
+        switch (clickedButton.getId()) {
+            case "btnAdd":
+                editController.setPerson(new Person());
+                showDialog();
+
+
+                if (editController.isSaveClicked()) {
+                    addressBook.add(editController.getPerson());
+                    research = true;
+                }
+
+
+                break;
+
+            case "btnEdit":
+                if (!personIsSelected(selectedPerson)) {
+                    return;
+                }
+                editController.setPerson(selectedPerson);
+                showDialog();
+
+                if (editController.isSaveClicked()) {
+                    // коллекция в addressBookImpl и так обновляется, т.к. мы ее редактируем в диалоговом окне и сохраняем при нажатии на ОК
+                    addressBook.update(selectedPerson);
+                    research = true;
+                }
+
+                break;
+
+            case "btnDelete":
+                if (!personIsSelected(selectedPerson) || !(confirmDelete())) {
+                    return;
+                }
+
+                research = true;
+                addressBook.delete(selectedPerson);
+                break;
+        }
+
+
+        if (research) {
+            actionSearch(actionEvent);
+        }
 
     }
+
+    private boolean confirmDelete() {
+        if (DialogManager.showConfirmDialog(resourceBundle.getString("confirm"), resourceBundle.getString("confirm_delete")).get() == ButtonType.OK){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private boolean personIsSelected(Person selectedPerson) {
+        if(selectedPerson == null){
+            DialogManager.showInfoDialog(resourceBundle.getString("error"), resourceBundle.getString("select_person"));
+            return false;
+        }
+        return true;
+    }
+
+
+    private void showDialog() {
+
+        if (editDialogStage == null) {
+            editDialogStage = new Stage();
+
+            editDialogStage.setMinHeight(150);
+            editDialogStage.setMinWidth(300);
+            editDialogStage.setResizable(false);
+            editDialogStage.initModality(Modality.WINDOW_MODAL);
+            editDialogStage.initOwner(comboLocales.getParent().getScene().getWindow());
+            editDialogStage.centerOnScreen();
+        }
+
+        editDialogStage.setScene(new Scene(editView.getView(LocaleManager.getCurrentLang().getLocale())));
+
+        editDialogStage.setTitle(resourceBundle.getString("edit"));
+
+        editDialogStage.showAndWait(); // для ожидания закрытия окна
+
+    }
+
 
     public void actionSearch(ActionEvent actionEvent) {
 
+        if (txtSearch.getText().trim().length() == 0) {
+            personList.clear();
+            personList.addAll(addressBook.findAll());
+        }else {
+            personList.clear();
+            personList.addAll(addressBook.find(txtSearch.getText()));
+        }
+
     }
-
-
 }
 
