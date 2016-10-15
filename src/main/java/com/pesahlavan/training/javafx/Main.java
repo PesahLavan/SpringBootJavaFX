@@ -16,11 +16,12 @@
 package com.pesahlavan.training.javafx;
 
 import com.pesahlavan.training.javafx.fxml.MainView;
+import com.pesahlavan.training.javafx.service.AddressBookService;
+import com.pesahlavan.training.javafx.utils.LocaleManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.pesahlavan.training.javafx.utils.LocaleManager;
 
 import java.util.Locale;
 
@@ -31,11 +32,15 @@ public class Main extends JavaFxSpringIntegrator{
 	@Autowired
 	private MainView mainView;
 
+	@Autowired
+	private AddressBookService addressBookService;
+
 	private Stage primaryStage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		super.start(primaryStage);
+
 		loadMainFXML(LocaleManager.RU_LOCALE, primaryStage);
 
 	}
@@ -54,6 +59,7 @@ public class Main extends JavaFxSpringIntegrator{
 		primaryStage.centerOnScreen();
 		primaryStage.setTitle(mainView.getResourceBundle().getString("address_book"));
 		primaryStage.show();
+
 
 	}
 

@@ -42,7 +42,7 @@ public abstract class JavaFxSpringIntegrator extends Application {
 		// главный момент - "присоединяем" экземпляр Application (который стартует javafx приложение) к контексту Spring
 		applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
-		printBeans();
+//		printBeans();
 
 		// уведомить прелоадер, что загрузка прошла полностью (чтобы скрыть окно инициализации)
 		LauncherImpl.notifyPreloader(this,  new Preloader.ProgressNotification(100));
