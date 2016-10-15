@@ -23,10 +23,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -36,9 +35,10 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 @Component
+@Slf4j
 public class MainController extends Observable{
 
-    private Logger logger = LoggerFactory.getLogger(MainController.class);
+
     private static final int PAGE_SIZE = 10;
     public static final int MAX_PAGE_SHOW = 10;
 
@@ -349,7 +349,7 @@ public class MainController extends Observable{
         fillPagination(page);
         pagination.setCurrentPageIndex(0);
         updateCountLabel(page.getTotalElements());
-        logger.debug("table loaded. . .");
+        log.debug("table loaded. . .");
     }
 
     // для показа данных с любой страницы
