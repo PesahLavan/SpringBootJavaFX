@@ -6,6 +6,9 @@ import com.pesahlavan.training.javafx.repository.PersonRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,4 +41,17 @@ public class AddressBookService implements AddressBook {
     public ObservableList<Person> find(String text) {
         return FXCollections.observableArrayList(Lists.newArrayList(personRepository.findByFioContainingIgnoreCase(text)));
     }
+
+    @Override
+    public Page findAll(int from, int count) {
+        return personRepository.findAll(new PageRequest(from, count, Sort.Direction.ASC, "fio"));
+    }
+
+    @Override
+    public Page findAll(int from, int count, String... text) {
+        return personRepository.findByFioContainingIgnoreCase(text[0], new PageRequest(from, count, Sort.Direction.ASC, "fio"));
+    }
+
+
 }
+
