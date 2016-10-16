@@ -1,6 +1,8 @@
 hibernate:
     connection:
         autocommit: true
+
+
 spring:
     datasource:
         driver-class-name: org.sqlite.JDBC
@@ -10,11 +12,16 @@ spring:
         properties:
             hibernate:
                 current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+                format_sql: true
         show-sql: true
-logging:
-    file: C:\Work\Idea15\javabegin.ru\AdrBook_SpringBoot_JFX\app.log
 
+logging:
     level:
-        ROOT: warn
-        org.springframework: INFO
-        org.hibernate: INFO
+        ROOT: WARN
+        org.springframework: debug
+        org.hibernate: debug
+        org.hibernate.type.descriptor.sql: trace
+
+    pattern:
+        console: '%d{HH:mm:ss} %-5p [%c]  -   %m%n'
+    file: C:\Work\Idea15\javabegin.ru\AdrBook_SpringBoot_JFX\app.log

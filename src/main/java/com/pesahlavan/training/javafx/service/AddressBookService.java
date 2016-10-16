@@ -43,15 +43,16 @@ public class AddressBookService implements AddressBook {
     }
 
     @Override
-    public Page findAll(int from, int count) {
+    public Page<Person> findAll(int from, int count) {
         return personRepository.findAll(new PageRequest(from, count, Sort.Direction.ASC, "fio"));
     }
 
     @Override
-    public Page findAll(int from, int count, String... text) {
+    public Page<Person> findAll(int from, int count, String... text) {
         return personRepository.findByFioContainingIgnoreCase(text[0], new PageRequest(from, count, Sort.Direction.ASC, "fio"));
     }
 
 
 }
+
 

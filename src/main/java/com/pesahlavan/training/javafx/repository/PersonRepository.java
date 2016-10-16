@@ -15,5 +15,4 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     Page<Person> findByFioContainingIgnoreCase(String fio, Pageable pageable);
 
-
 }

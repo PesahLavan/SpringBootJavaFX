@@ -11,6 +11,8 @@ buildscript {
 }
 
 ext['hibernate.version'] = '5.1.0.Final'
+ext['hibernate.version'] = '5.1.0.Final'
+
 
 apply plugin: 'java'
 apply plugin: 'eclipse'

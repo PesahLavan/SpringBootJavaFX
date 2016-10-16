@@ -55,7 +55,7 @@ public class Main extends JavaFxSpringIntegrator{
 		this.primaryStage = primaryStage;
 		primaryStage.setScene(new Scene(mainView.getView(locale)));
 		primaryStage.setMinHeight(700);
-		primaryStage.setMinWidth(530);
+		primaryStage.setMinWidth(600);
 		primaryStage.centerOnScreen();
 		primaryStage.setTitle(mainView.getResourceBundle().getString("address_book"));
 		primaryStage.show();
