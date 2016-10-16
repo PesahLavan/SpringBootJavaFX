@@ -15,6 +15,23 @@ ext['hibernate.version'] = '5.1.0.Final'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
+apply plugin: 'maven'
+// https://docs.gradle.org/current/userguide/maven_plugin.html
+
+
+group = 'com.pesahlavan.training.javafx'
+
+install {
+    repositories.mavenInstaller {
+        // only necessary if artifact ID diverges from project name
+        // the latter defaults to project directory name and can be
+        // configured in settings.gradle
+        pom.artifactId = 'addressbookspringboot'
+        // shouldn't be needed as this is the default anyway
+        pom.packaging = 'jar'
+        pom.version = '1.0.0.RELEASE'
+    }
+}
 
 jar {
     baseName = 'addressbookspringboot'
@@ -30,10 +47,14 @@ repositories {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web-services'){
+        exclude module: 'spring-boot-starter-tomcat'
+    }
     compile('org.xerial:sqlite-jdbc:+')
     compile('org.projectlombok:lombok:+')
     compile('org.controlsfx:controlsfx:+')
     compile('com.google.guava:guava:+')
+    compile('org.springframework.boot:spring-boot-devtools')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

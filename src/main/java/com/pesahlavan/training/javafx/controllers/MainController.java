@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,7 @@ public class MainController extends Observable{
     private Page page;// текущие постраничные данные
 
     @Autowired
+    @Qualifier("restBook")
     private AddressBook addressBook;
 
 
