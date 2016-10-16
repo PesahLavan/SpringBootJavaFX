@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 @Service
 public class RestBook implements AddressBook {
 
-    private static final String REST_URL = "http://localhost:8080/addressbookservice-0.0.1-SNAPSHOT/addressbook";
+    private static final String REST_URL = "http://localhost:8080//rest_adrbook_springboot_jfx-0.0.1-SNAPSHOT/addressbook";
 
     @Override
     public void add(Person person) {
